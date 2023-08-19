@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 
-data = pd.read_csv('../Mobile-Phones-Analysis/Data/flipkart_product.csv')
+data = pd.read_csv('C../Mobile-Phones-Analysis/Data/flipkart_product.csv')
 
 disc_list = list(map(str, data['Discription']))
 
@@ -59,5 +59,6 @@ data['rom(GB)']=rom_details
 data['display(cm)']=display_details
 data['battery(mAh)']=battery_details
 
+data.drop('Discription',axis=1,inplace=True)
 
 data.to_csv('../Mobile-Phones-Analysis/Data/flipkart_product_clean_data.csv',index=False)
