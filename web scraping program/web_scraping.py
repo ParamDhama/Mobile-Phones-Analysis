@@ -24,29 +24,36 @@ for url in urls:
         name_element = product.find('div', {'class': '_4rR01T'})
         name = name_element.text.strip() if name_element else "N/A"
 
-        price_element = product.find('div', {'class': '_30jeq3 _1_WHN1'})
-        price = price_element.text.strip() if price_element else "N/A"
+        price_element1 = product.find('div', {'class': '_30jeq3 _1_WHN1'})
+        current_price = price_element1.text.replace('₹', '').replace(',', '').strip() if price_element1 else "N/A"
+
+        price_element2 = product.find('div', {'class': '_3I9_wc _27UcVY'})
+        actual_price = price_element2.text.replace('₹', '').replace(',', '').strip() if price_element2 else "N/A"
+
+        offer_element = product.find('div', {'class': '_3Ay6Sb'})
+        offer = offer_element.text.replace(r"% off","").strip() if offer_element else "N/A"
 
         review_element = product.find('div', {'class': '_3LWZlK'})
-        review = review_element.text.strip() if review_element else "N/A"
+        rating = review_element.text.strip() if review_element else "N/A"
 
         discription_element = product.find('ul', {'class': '_1xgFaf'})
         discription_element_list = []
         for dic in discription_element:
             discription_element_list.append(dic.text.strip() if dic else "N/A")
         discription = "/".join(discription_element_list)
+
         imgscr_element = product.find('img', {'class': '_396cs4'})
         img = imgscr_element['src']
 
-        a_element = product.find('a',{'class':'_1fQZEK'})
-        link = 'https://www.flipkart.com'+a_element['href']
 
         products.append({
-            'Product Name': name,
-            'Price': price,
+            'product_name': name,
+            'current_price': current_price,
+            'actual_price': actual_price,
+            'offer(%)': offer,
+            'rating': rating,
             'Discription': discription,
             'Image': img,
-            'Link': link
         })
 
 # Convert the list of dictionaries to a DataFrame
@@ -54,4 +61,4 @@ df = pd.DataFrame(products)
 
 
 # Save the DataFrame to a CSV file
-df.to_csv('C:\IMP\Job project\PowerBi\Mobile-Phones-Analysis/Data/flipkart_product.csv', index=False)
+df.to_csv('../Mobile-Phones-Analysis/Data/flipkart_product.csv', index=False)
